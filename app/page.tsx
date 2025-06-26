@@ -16,8 +16,8 @@ export default function Home() {
   const [dayOffset, setDayOffset] = useState(0);
   const boardSetRef = useRef<Record<number, { board: string[]; queue: any[] }>>({});
 
-  const [boardCategories, setBoardCategories] = useState([]);
-  const [playerQueue, setPlayerQueue] = useState([]);
+  const [boardCategories, setBoardCategories] = useState<string[]>([]);
+  const [playerQueue, setPlayerQueue] = useState<any[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
   const [selectedSquares, setSelectedSquares] = useState(
     Array.from({ length: 16 }, () => ({ status: null, player: null }))

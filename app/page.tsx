@@ -10,6 +10,17 @@ import {
   seededShuffle,
 } from "./utils/bingo";
 
+type Player = {
+  name: string;
+  categories: string[];
+};
+
+type Square = {
+  status: "correct" | "wrong" | "wildcard" | "revealed" | null;
+  player: string | null;
+};
+
+
 export default function Home() {
   const todaySeed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ""));
   const DAYS = 10;
@@ -59,7 +70,7 @@ export default function Home() {
     }
   }, [currentPlayer]);
 
-  function handleCategoryClick(index) {
+  function handleCategoryClick(index: number) {
     const category = boardCategories[index];
     const isCorrect = currentPlayer.categories.includes(category);
 

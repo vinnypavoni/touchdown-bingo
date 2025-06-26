@@ -18,8 +18,13 @@ function shuffle<T>(array: T[]): T[] {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
+type Player = {
+  name: string;
+  categories: string[];
+};
+
 function generateValidCategories(
-  players: any[],
+  players: Player[],
   categories: string[],
   seed: number
 ): string[] {
@@ -77,7 +82,7 @@ function generateValidCategories(
 }
 
 function pickWinnablePlayers(
-  players: any[],
+  players: Player[],
   boardCategories: string[],
   seed: number,
   totalCount = 42,

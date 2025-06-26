@@ -14,7 +14,7 @@ export default function Home() {
   const todaySeed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ""));
   const DAYS = 10;
   const [dayOffset, setDayOffset] = useState(0);
-  const boardSetRef = useRef({});
+  const boardSetRef = useRef<Record<number, { board: string[]; queue: any[] }>>({});
 
   const [boardCategories, setBoardCategories] = useState([]);
   const [playerQueue, setPlayerQueue] = useState([]);

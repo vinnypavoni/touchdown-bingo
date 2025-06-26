@@ -30,7 +30,7 @@ export default function Home() {
   const [boardCategories, setBoardCategories] = useState<string[]>([]);
   const [playerQueue, setPlayerQueue] = useState<any[]>([]);
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
-  const [selectedSquares, setSelectedSquares] = useState(
+  const [selectedSquares, setSelectedSquares] = useState<Square[]>(
     Array.from({ length: 16 }, () => ({ status: null, player: null }))
   );
   const [gameStarted, setGameStarted] = useState(false);
@@ -83,7 +83,7 @@ export default function Home() {
       setSelectedSquares(newSelected);
 
       const totalCorrect = newSelected.filter(sq =>
-        ["correct", "wildcard"].includes(sq.status)
+        sq.status !== null && ["correct", "wildcard"].includes(sq.status)
       ).length;
       if (totalCorrect === 16) {
         setShowEndModal(true);
@@ -225,7 +225,8 @@ export default function Home() {
                   onClick={() => handleCategoryClick(index)}
                   disabled={square.status !== null}
                 >
-                  {["correct", "revealed", "wildcard"].includes(square.status) && (
+                  {square.status !== null && ["correct", "revealed", "wildcard"].includes(square.status) && (
+
                     <div
                       className="absolute inset-1 rounded-md z-0"
                       style={{
@@ -301,7 +302,7 @@ export default function Home() {
             </button>
 
             {selectedSquares.filter(s =>
-                ["correct", "wildcard"].includes(s.status)
+                s.status !== null && ["correct", "wildcard"].includes(s.status)
               ).length === 16 ? (
                 <>
                   <h2 className="text-xl font-bold mb-2">🎉 You Won!</h2>

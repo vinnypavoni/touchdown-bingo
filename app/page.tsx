@@ -370,7 +370,7 @@ export default function Home() {
           adSlot="5963260153" // replace with your actual slot id
           style={{ display: 'block', width: '160px', height: '600px' }}
         />
-      </div>
+      
 
         <div className="w-full flex justify-between mt-4 px-4">
           <button

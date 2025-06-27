@@ -38,16 +38,22 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <head>
+        <title>TEST HEAD - Touchdown Bingo</title>
+        <meta name="google-adsense-account" content="ca-pub-8274422118651919" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+          data-ad-client="ca-pub-8274422118651919"
+        />
+      </head>
+      <body>
         {children}
       </body>
     </html>
   );
 }
+

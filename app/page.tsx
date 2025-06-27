@@ -1,6 +1,7 @@
 // Touchdown Bingo Home Component (Fully Styled and Functional)
 "use client";
 
+import GoogleAd from "../components/GoogleAd"; // Adjust the path if needed
 import { useState, useEffect, useRef } from "react";
 import { players } from "../data/players";
 import { categories } from "../data/categories";
@@ -275,6 +276,14 @@ export default function Home() {
             </button>
           )}
         </div>
+        
+        <div className="flex justify-center items-start gap-4 max-w-[640px] mx-auto">
+        {/* Left Google Ad */}
+        <GoogleAd
+          adClient="ca-pub-8274422118651919"
+          adSlot="LEFT_AD_SLOT_ID" // replace with your actual slot id
+          style={{ width: '160px', height: '600px' }}
+        />
 
         <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-hidden">
           {boardCategories.map((category, index) => {
@@ -355,6 +364,13 @@ export default function Home() {
             );
           })}
         </div>
+
+        {/* Right Google Ad */}
+        <GoogleAd
+          adClient="ca-pub-8274422118651919"
+          adSlot="RIGHT_AD_SLOT_ID" // replace with your actual slot id
+          style={{ width: '160px', height: '600px' }}
+        />
 
         <div className="w-full flex justify-between mt-4 px-4">
           <button

@@ -38,6 +38,15 @@ export default function Home() {
   const [wildcardUsed, setWildcardUsed] = useState(false);
 
   const seed = todaySeed - dayOffset;
+  const LAUNCH_DATE = new Date(2025, 5, 17); // June 17, 2024 (local time)
+  const today = new Date();
+  const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const daysSinceLaunch = Math.floor(
+    (todayMidnight.getTime() - LAUNCH_DATE.getTime()) / (1000 * 60 * 60 * 24)
+  );
+  const gameNumber = daysSinceLaunch + 1 - dayOffset;
+
+
   const currentPlayer = playerQueue[currentPlayerIndex] || null;
 
   useEffect(() => {
@@ -125,12 +134,11 @@ export default function Home() {
       }
     });
 
-    if (matched) {
-      setSelectedSquares(newSelected);
-      setWildcardUsed(true);
-      setCurrentPlayerIndex(prev => prev + 1);
-    }
+    setSelectedSquares(newSelected);
+    setWildcardUsed(true);
+    setCurrentPlayerIndex(prev => prev + 1);
   }
+
 
   function revealAnswers() {
     const newSelected = [...selectedSquares];
@@ -154,6 +162,73 @@ export default function Home() {
     setShowEndModal(false);
   }
 
+  const totalCorrect = selectedSquares.filter(
+    sq => ["correct", "wildcard"].includes(sq.status || "")
+  ).length;
+
+  const gameCompleted = totalCorrect === 16;
+
+  const categoryAbbreviations: Record<string, string> = {
+    // NFL Teams
+    "San Francisco 49ers": "SF 49ERS",
+    "Tampa Bay Buccaneers": "TB BUCS",
+    "New England Patriots": "NE PATRIOTS",
+    "Philadelphia Eagles": "PHI EAGLES",
+    "Los Angeles Chargers": "LA CHARGERS",
+    "Los Angeles Rams": "LA RAMS",
+    "Washington Commanders": "WAS COMMANDERS",
+    "Arizona Cardinals": "AZ CARDINALS",
+    "Kansas City Chiefs": "KC CHIEFS",
+    "Jacksonville Jaguars": "JAX JAGUARS",
+    "Minnesota Vikings": "MIN VIKINGS",
+    "Green Bay Packers": "GB PACKERS",
+    "Detroit Lions": "DET LIONS",
+    "New Orleans Saints": "NO SAINTS",
+    "New York Giants": "NYG",
+    "New York Jets": "NYJ",
+    "Cincinnati Bengals": "CIN BENGALS",
+    "Cleveland Browns": "CLE BROWNS",
+
+    // College Teams
+    "Texas A&M Aggies": "TEXAS A&M",
+    "Florida St Seminoles": "FLORIDA ST",
+    "Mississippi St Bulldogs": "MISSISSIPPI ST",
+    "Notre Dame Fighting Irish": "NOTRE DAME",
+    "Michigan Wolverines": "MICHIGAN",
+    "Ohio St Buckeyes": "OHIO ST",
+    "Wisconsin Badgers": "WISCONSIN",
+    "Nebraska Cornhuskers": "NEBRASKA",
+    "Vanderbilt Commodores": "VANDY",
+    "Arkansas Razorbacks": "ARKANSAS",
+    "Tennessee Volunteers": "TENNESSEE",
+    "South Carolina Gamecocks": "SOUTH CAROLINA",
+    "North Carolina Tar Heels": "UNC",
+    "Florida Gators": "FLORIDA",
+    "Auburn Tigers": "AUBURN",
+    "Georgia Bulldogs": "GEORGIA",
+    "Ole Miss Rebels": "OLE MISS",
+    "Oklahoma Sooners": "OKLAHOMA",
+    "Missouri Tigers": "MIZZOU",
+    "Texas Longhorns": "TEXAS",
+    "Clemson Tigers": "CLEMSON",
+    "Iowa Hawkeyes": "IOWA",
+    "UCLA Bruins": "UCLA",
+    "USC Trojans": "USC",
+    "TCU Horned Frogs": "TCU",
+    "Oregon Ducks": "OREGON",
+
+    // Misc
+    "Coached by Bill Belichick": "COACHED BY BELICHICK",
+    "Coached by Andy Reid": "COACHED BY REID",
+    "Coached by Pete Carroll": "COACHED BY CARROLL",
+    "Coached by Sean Payton": "COACHED BY PAYTON",
+    "Hall of Famer": "HOF",
+    "Heisman Trophy Winner": "HEISMAN",
+    "Super Bowl Winner": "SB WINNER",
+    "DPOY": "DPOY",
+    "MVP": "MVP",
+  };
+
   return (
     <div className="min-h-screen pt-6 pb-2 text-center flex flex-col items-center gap-4 bg-[#001f3f] text-white">
       <h1 className="text-4xl font-bold" style={{ fontFamily: 'Impact', letterSpacing: '1px' }}>
@@ -166,14 +241,14 @@ export default function Home() {
         <div className="bg-blue-800 text-white p-6 rounded-t-md w-full mx-auto flex flex-col items-center gap-2 relative">
           {gameStarted ? (
             <>
-              <div className="flex items-center justify-center w-20 h-20 rounded-full bg-white text-black text-3xl font-bold absolute left-4 top-4">
+              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white text-black text-3xl font-bold absolute left-4 top-4">
                 {Math.max(0, playerQueue.length - currentPlayerIndex)}
               </div>
               {currentPlayer && (
-                <div className="text-3xl font-bold">{currentPlayer.name}</div>
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold">{currentPlayer.name}</div>
               )}
               <div className="h-[30px] mt-1">
-                {!wildcardUsed && (
+                {!wildcardUsed && !gameCompleted && (
                   <button
                     onClick={handleWildcard}
                     className="bg-lime-400 hover:bg-lime-500 text-black text-xs font-semibold px-4 py-1 rounded mt-1"
@@ -182,7 +257,7 @@ export default function Home() {
                   </button>
                 )}
               </div>
-              {!showEndModal && (
+              {!showEndModal && !gameCompleted && (
                 <div
                   className="absolute right-4 top-4 text-white font-bold text-sm cursor-pointer"
                   onClick={() => setCurrentPlayerIndex(prev => prev + 1)}
@@ -203,10 +278,15 @@ export default function Home() {
 
         <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-hidden">
           {boardCategories.map((category, index) => {
-            const safeFileName = category
-              .toLowerCase()
-              .replace(/ /g, "_")
-              .replace(/[^\w_]/g, "");
+            const imageOverrides: Record<string, string> = {
+              "Texas A&M Aggies": "texas_am_aggies.png",
+              // add more overrides as needed
+            };
+
+            const safeFileName =
+              imageOverrides[category] ||
+              category.toLowerCase().replace(/ /g, "_").replace(/[^\w_]/g, "");
+
             const square = selectedSquares[index];
             const isEvenRow = Math.floor(index / 4) % 2 === 0;
             const isEvenCol = index % 2 === 0;
@@ -251,9 +331,15 @@ export default function Home() {
                             e.currentTarget.style.display = "none";
                           }}
                         />
-                        <span className="font-semibold text-xs font-sans tracking-wide px-1">
-                          {category}
-                        </span>
+                        <>
+                          <span className="font-semibold text-[10px] sm:hidden font-sans tracking-wide px-1 text-center leading-tight break-words">
+                            {categoryAbbreviations[category] || category.toUpperCase()}
+                          </span>
+                          <span className="hidden sm:inline font-semibold text-xs font-sans tracking-wide px-1 text-center leading-tight break-words">
+                            {category}
+                          </span>
+                        </>
+
                       </>
                     )}
                     {square.player && (
@@ -279,7 +365,7 @@ export default function Home() {
             &lt; Previous
           </button>
           <div className="text-sm text-gray-300 font-semibold">
-            #{DAYS - dayOffset}
+            #{gameNumber}
           </div>
           <button
             className="bg-gray-600 hover:bg-gray-700 text-white text-sm font-semibold px-4 py-2 rounded disabled:opacity-40"

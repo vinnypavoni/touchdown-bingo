@@ -139,7 +139,7 @@ export const players = [
   },
   {
     name: "Steve Young",
-    categories: ["Hall of Famer", "Super Bowl Winner", "San Francisco 49ers", "BYU Cougars"],
+    categories: ["Hall of Famer", "Super Bowl Winner", "San Francisco 49ers", "Tampa Bay Bucaneers", "BYU Cougars"],
   },
   {
     name: "Eric Dickerson",
@@ -518,7 +518,7 @@ export const players = [
 { name: "Will Anderson Jr.", categories: ["Houston Texans", "Alabama Crimson Tide", "1st Round Draft Pick"] },
 { name: "Jayden Daniels", categories: ["Heisman Trophy Winner", "Washington Commanders", "LSU Tigers", "1st Round Draft Pick"] },
 { name: "Bijan Robinson", categories: ["Atlanta Falcons", "Texas Longhorns", "1st Round Draft Pick"] },
-{ name: "Drake Maye", categories: ["New York Giants", "North Carolina Tar Heels", "1st Round Draft Pick"] },
+{ name: "Drake Maye", categories: ["New England Patriots", "North Carolina Tar Heels", "1st Round Draft Pick"] },
 { name: "Marvin Harrison Jr.", categories: ["Arizona Cardinals", "Ohio State Buckeyes", "1st Round Draft Pick"] },
 { name: "Will Shipley", categories: ["Carolina Panthers", "Clemson Tigers", "1st Round Draft Pick"] },
 { name: "Michael Penix Jr.", categories: ["Seattle Seahawks", "Washington Huskies", "1st Round Draft Pick"] },

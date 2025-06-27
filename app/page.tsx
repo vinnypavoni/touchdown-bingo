@@ -232,21 +232,23 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pt-6 pb-2 text-center flex flex-col items-center gap-4 bg-[#001f3f] text-white">
-      <div className="fixed top-0 left-0 h-full flex items-start px-2 z-50">
+      <div className="fixed top-0 left-0 h-full flex items-start px-2 z-50 hidden md:flex">
         <GoogleAd
           adClient="ca-pub-8274422118651919"
-          adSlot="LEFT_AD_SLOT_ID"
+          adSlot="5963260153"
           style={{ width: '160px', height: '600px', backgroundColor: 'rgba(191, 227, 30, 0.1)' }}
         />
       </div>
+
       {/* Right Ad */}
-      <div className="fixed top-0 right-0 h-full flex items-start px-2 z-50">
+      <div className="fixed top-0 right-0 h-full flex items-start px-2 z-50 hidden md:flex">
         <GoogleAd
           adClient="ca-pub-8274422118651919"
-          adSlot="RIGHT_AD_SLOT_ID"
+          adSlot="1864233044"
           style={{ width: '160px', height: '600px', backgroundColor: 'rgba(170, 223, 34, 0.1)' }}
         />
       </div>
+
       <h1 className="text-4xl font-bold" style={{ fontFamily: 'Impact', letterSpacing: '1px' }}>
         Touchdown Bingo
       </h1>

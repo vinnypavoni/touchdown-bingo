@@ -278,11 +278,11 @@ export default function Home() {
         </div>
         
         <div className="flex justify-center items-start gap-4 max-w-[640px] mx-auto">
-        {/* Left Google Ad */}
-        <GoogleAd
+       
+        </div><GoogleAd
           adClient="ca-pub-8274422118651919"
-          adSlot="LEFT_AD_SLOT_ID" // replace with your actual slot id
-          style={{ width: '160px', height: '600px' }}
+          adSlot="1864233044"
+          style={{ display: 'block', width: '160px', height: '600px' }}
         />
 
         <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-hidden">
@@ -365,12 +365,12 @@ export default function Home() {
           })}
         </div>
 
-        {/* Right Google Ad */}
         <GoogleAd
           adClient="ca-pub-8274422118651919"
-          adSlot="RIGHT_AD_SLOT_ID" // replace with your actual slot id
-          style={{ width: '160px', height: '600px' }}
+          adSlot="5963260153" // replace with your actual slot id
+          style={{ display: 'block', width: '160px', height: '600px' }}
         />
+      </div>
 
         <div className="w-full flex justify-between mt-4 px-4">
           <button

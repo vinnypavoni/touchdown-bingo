@@ -232,6 +232,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pt-6 pb-2 text-center flex flex-col items-center gap-4 bg-[#001f3f] text-white">
+      <div className="fixed top-0 left-0 h-full flex items-start px-2 z-50">
+        <GoogleAd
+          adClient="ca-pub-8274422118651919"
+          adSlot="LEFT_AD_SLOT_ID"
+          style={{ width: '160px', height: '600px', backgroundColor: 'rgba(191, 227, 30, 0.1)' }}
+        />
+      </div>
+      {/* Right Ad */}
+      <div className="fixed top-0 right-0 h-full flex items-start px-2 z-50">
+        <GoogleAd
+          adClient="ca-pub-8274422118651919"
+          adSlot="RIGHT_AD_SLOT_ID"
+          style={{ width: '160px', height: '600px', backgroundColor: 'rgba(170, 223, 34, 0.1)' }}
+        />
+      </div>
       <h1 className="text-4xl font-bold" style={{ fontFamily: 'Impact', letterSpacing: '1px' }}>
         Touchdown Bingo
       </h1>
@@ -277,14 +292,6 @@ export default function Home() {
           )}
         </div>
         
-        <div className="flex justify-center items-start gap-4 max-w-[640px] mx-auto">
-       
-        </div><GoogleAd
-          adClient="ca-pub-8274422118651919"
-          adSlot="1864233044"
-          style={{ display: 'block', width: '160px', height: '600px' }}
-        />
-
         <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-hidden">
           {boardCategories.map((category, index) => {
             const imageOverrides: Record<string, string> = {
@@ -365,12 +372,7 @@ export default function Home() {
           })}
         </div>
 
-        <GoogleAd
-          adClient="ca-pub-8274422118651919"
-          adSlot="5963260153" // replace with your actual slot id
-          style={{ display: 'block', width: '160px', height: '600px' }}
-        />
-      
+            
 
         <div className="w-full flex justify-between mt-4 px-4">
           <button

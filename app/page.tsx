@@ -10,20 +10,43 @@ import {
   pickWinnablePlayers,
   seededShuffle,
 } from "./utils/bingo";
+import { motion, AnimatePresence } from "framer-motion";
 
-type Player = {
-  name: string;
-  categories: string[];
-};
 
 type Square = {
   status: "correct" | "wrong" | "wildcard" | "revealed" | null;
   player: string | null;
 };
 
+function PlayerName({ name }: { name: string }) {
+  const [firstName, lastName] = name.split(" ");
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={name}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3 }}
+        className="inline-block text-left font-bold uppercase tracking-wide font-sans text-xl"
+        style={{ marginLeft: "0.5rem" }}
+      >
+        <div>{firstName}</div>
+        <div>{lastName}</div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 
 export default function Home() {
-  const todaySeed = parseInt(new Date().toISOString().slice(0, 10).replace(/-/g, ""));
+
+  const [animOverlays, setAnimOverlays] = useState<
+    { x: number; y: number; color: string; id: number }[]
+  >([]);
+
+  const [animating, setAnimating] = useState(false);
+
   const DAYS = 10;
   const [dayOffset, setDayOffset] = useState(0);
   const boardSetRef = useRef<Record<number, { board: string[]; queue: any[] }>>({});
@@ -38,19 +61,21 @@ export default function Home() {
   const [showEndModal, setShowEndModal] = useState(false);
   const [wildcardUsed, setWildcardUsed] = useState(false);
 
-  const seed = todaySeed - dayOffset;
   const LAUNCH_DATE = new Date(2025, 5, 17); // June 17, 2024 (local time)
   const today = new Date();
   const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const daysSinceLaunch = Math.floor(
     (todayMidnight.getTime() - LAUNCH_DATE.getTime()) / (1000 * 60 * 60 * 24)
   );
+  const seed = daysSinceLaunch + 1 - dayOffset;
   const gameNumber = daysSinceLaunch + 1 - dayOffset;
 
 
   const currentPlayer = playerQueue[currentPlayerIndex] || null;
 
   useEffect(() => {
+    console.log("Current seed:", seed);
+
     if (!boardSetRef.current[seed]) {
       try {
         const board = generateValidCategories(players, categories, seed);
@@ -84,44 +109,104 @@ export default function Home() {
     const category = boardCategories[index];
     const isCorrect = currentPlayer.categories.includes(category);
 
-    if (isCorrect) {
-      const newSelected = [...selectedSquares];
-      newSelected[index] = {
-        status: "correct",
-        player: currentPlayer.name,
-      };
-      setSelectedSquares(newSelected);
-
-      const totalCorrect = newSelected.filter(sq =>
-        sq.status !== null && ["correct", "wildcard"].includes(sq.status)
-      ).length;
-      if (totalCorrect === 16) {
-        setShowEndModal(true);
-        return;
-      }
-
-      setCurrentPlayerIndex(prev => prev + 1);
-    } else {
-      const newSelected = [...selectedSquares];
-      newSelected[index] = { status: "wrong", player: null };
-      setSelectedSquares(newSelected);
-
-      setTimeout(() => {
-        setSelectedSquares(prevSelected =>
-          prevSelected.map(val =>
-            val.status === "wrong" ? { status: null, player: null } : val
-          )
-        );
-        setCurrentPlayerIndex(prev => prev + 2);
-      }, 500);
+    // Find the square DOM element by id
+    const squareEl = document.getElementById(`square-${index}`);
+    if (!squareEl) {
+      console.warn("Square element not found for animation");
+      return;
     }
+
+    // Get bounding rect of square & grid container
+    const squareRect = squareEl.getBoundingClientRect();
+    const gridEl = squareEl.closest(".grid");
+    if (!gridEl) {
+      console.warn("Grid container not found");
+      return;
+    }
+    const gridRect = gridEl.getBoundingClientRect();
+
+    // Calculate overlay start size and position to cover ~2.5 squares and fade in from outside
+    const overlaySize = gridRect.width * 0.6; // roughly 2.5 squares (4 squares total in row)
+    const centerX = squareRect.left + squareRect.width / 2;
+    const centerY = squareRect.top + squareRect.height / 2;
+
+    // Position relative to viewport, so position fixed overlay
+    // Start overlay bigger and centered on the square
+    const overlayStartLeft = centerX - overlaySize / 2;
+    const overlayStartTop = centerY - overlaySize / 2;
+
+    // Create overlay div
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.left = `${overlayStartLeft}px`;
+    overlay.style.top = `${overlayStartTop}px`;
+    overlay.style.width = `${overlaySize}px`;
+    overlay.style.height = `${overlaySize}px`;
+    overlay.style.backgroundColor = isCorrect
+      ? "#a3e635"
+      : "rgba(255, 0, 0, 0.7)"; // green for correct, red-ish for wrong
+    overlay.style.borderRadius = "8px";
+    overlay.style.pointerEvents = "none";
+    overlay.style.opacity = "0.7";
+    overlay.style.zIndex = "1000";
+    overlay.style.transition = "all 0.3s ease-out";
+
+    document.body.appendChild(overlay);
+
+    // Trigger animation: shrink overlay to exactly cover the square
+    requestAnimationFrame(() => {
+      overlay.style.left = `${squareRect.left}px`;
+      overlay.style.top = `${squareRect.top}px`;
+      overlay.style.width = `${squareRect.width}px`;
+      overlay.style.height = `${squareRect.height}px`;
+      overlay.style.opacity = "1";
+    });
+
+    // After animation duration, remove overlay and update state
+    setTimeout(() => {
+      document.body.removeChild(overlay);
+
+      if (isCorrect) {
+        const newSelected = [...selectedSquares];
+        newSelected[index] = {
+          status: "correct",
+          player: currentPlayer.name,
+        };
+        setSelectedSquares(newSelected);
+
+        const totalCorrect = newSelected.filter(
+          (sq) =>
+            sq.status !== null && ["correct", "wildcard"].includes(sq.status)
+        ).length;
+        if (totalCorrect === 16) {
+          setShowEndModal(true);
+          return;
+        }
+
+        setCurrentPlayerIndex((prev) => prev + 1);
+      } else {
+        const newSelected = [...selectedSquares];
+        newSelected[index] = { status: "wrong", player: null };
+        setSelectedSquares(newSelected);
+
+        setTimeout(() => {
+          setSelectedSquares((prevSelected) =>
+            prevSelected.map((val) =>
+              val.status === "wrong" ? { status: null, player: null } : val
+            )
+          );
+          setCurrentPlayerIndex((prev) => prev + 2);
+        }, 500);
+      }
+    }, 600); // Match the animation duration here
   }
+
 
   function handleWildcard() {
     if (!currentPlayer) return;
 
     const newSelected = [...selectedSquares];
-    let matched = false;
+    let matchedIndices: number[] = [];
 
     boardCategories.forEach((cat, index) => {
       const isAlreadyGuessed = newSelected[index].status !== null;
@@ -131,14 +216,32 @@ export default function Home() {
           status: "wildcard",
           player: currentPlayer.name,
         };
-        matched = true;
+        matchedIndices.push(index);
       }
     });
 
     setSelectedSquares(newSelected);
     setWildcardUsed(true);
     setCurrentPlayerIndex(prev => prev + 1);
+
+    // Prepare overlay animations for all matched squares
+    const overlays = matchedIndices.map((index) => {
+      const squareElement = document.getElementById(`square-${index}`);
+      if (!squareElement) return null;
+
+      const rect = squareElement.getBoundingClientRect();
+      return {
+        id: index,
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        color: "#fb923c", // Wildcard orange
+      };
+    }).filter(Boolean) as { id: number; x: number; y: number; color: string }[];
+
+    setAnimOverlays(overlays);
   }
+
+
 
 
   function revealAnswers() {
@@ -233,6 +336,30 @@ export default function Home() {
   return (
     <div className="min-h-screen pt-6 pb-2 text-center flex flex-col items-center gap-4 bg-[#001f3f] text-white">
       
+      {animOverlays.map(({ x, y, color, id }) => (
+        <motion.div
+          key={id}
+          className="fixed w-32 h-32 rounded-md pointer-events-none z-40"
+          style={{
+            left: x,
+            top: y,
+            backgroundColor: color,
+            originX: 0.5,
+            originY: 0.5,
+            translateX: "-50%",
+            translateY: "-50%",
+            position: "fixed",
+          }}
+          initial={{ opacity: 0, scale: 2.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          onAnimationComplete={() => {
+            setAnimOverlays(prev => prev.filter(overlay => overlay.id !== id));
+          }}
+        />
+      ))}
+
 
       <h1 className="text-4xl font-bold" style={{ fontFamily: 'Impact', letterSpacing: '1px' }}>
         Touchdown Bingo
@@ -241,25 +368,37 @@ export default function Home() {
       <div className="w-full max-w-[480px]">
         
 
-        <div className="bg-blue-800 text-white p-6 rounded-t-md w-full mx-auto flex flex-col items-center gap-2 relative">
+        <div className="bg-blue-800 text-white p-6 rounded-t-md w-full mx-auto relative min-h-[144px]">
           {gameStarted ? (
             <>
-              <div className="flex items-center justify-center w-14 h-14 rounded-full bg-white text-black text-3xl font-bold absolute left-4 top-4">
-                {Math.max(0, playerQueue.length - currentPlayerIndex)}
+              {/* Container for circle and name, left-aligned */}
+              <div className="flex items-center gap-3 justify-start">
+                {/* White circle flushed to left */}
+                <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white text-black text-3xl font-bold flex items-center justify-center">
+                  {Math.max(0, playerQueue.length - currentPlayerIndex)}
+                </div>
+
+                {/* Player name next to the circle, left aligned */}
+                {currentPlayer && (
+                  <div className="text-left font-extrabold uppercase text-2xl tracking-wide" style={{ fontFamily: 'Impact', lineHeight: 1.1 }}>
+                    <PlayerName name={currentPlayer.name} />
+                  </div>
+                )}
               </div>
-              {currentPlayer && (
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold">{currentPlayer.name}</div>
-              )}
-              <div className="h-[30px] mt-1">
-                {!wildcardUsed && !gameCompleted && (
+
+              {/* Wildcard button centered below the circle and name */}
+              {!wildcardUsed && !gameCompleted && (
+                <div className="flex justify-center mt-4">
                   <button
                     onClick={handleWildcard}
-                    className="bg-lime-400 hover:bg-lime-500 text-black text-xs font-semibold px-4 py-1 rounded mt-1"
+                    className="bg-lime-400 hover:bg-lime-500 text-black text-xs font-semibold px-4 py-1 rounded"
                   >
                     Play Wildcard
                   </button>
-                )}
-              </div>
+                </div>
+              )}
+
+              {/* Skip button top-right */}
               {!showEndModal && !gameCompleted && (
                 <div
                   className="absolute right-4 top-4 text-white font-bold text-sm cursor-pointer"
@@ -278,8 +417,9 @@ export default function Home() {
             </button>
           )}
         </div>
+
         
-        <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-hidden">
+        <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-visible relative">
           {boardCategories.map((category, index) => {
             const imageOverrides: Record<string, string> = {
               "Texas A&M Aggies": "texas_am_aggies.png",
@@ -296,9 +436,12 @@ export default function Home() {
             const isDark = isEvenRow ? isEvenCol : !isEvenCol;
 
             return (
-              <div key={index} className="relative w-full aspect-square">
-                <button
-                  className={`absolute inset-0 flex flex-col items-center justify-center text-xs font-medium text-center transition-all duration-200 ${
+              <div
+               key={index}
+               id={`square-${index}`}
+               className="relative w-full aspect-square">
+                <motion.button
+                  className={`absolute inset-0 flex flex-col items-center justify-center text-xs font-medium text-center transition-all duration-50 ${
                     square.status === "wrong"
                       ? "bg-red-500 text-white"
                       : isDark
@@ -309,7 +452,6 @@ export default function Home() {
                   disabled={square.status !== null}
                 >
                   {square.status !== null && ["correct", "revealed", "wildcard"].includes(square.status) && (
-
                     <div
                       className="absolute inset-1 rounded-md z-0"
                       style={{
@@ -320,8 +462,10 @@ export default function Home() {
                             ? "#facc15"
                             : "#fb923c",
                       }}
-                    ></div>
+                    />
+
                   )}
+                  
 
                   <div className="relative z-10 flex flex-col items-center">
                     {gameStarted && (
@@ -353,7 +497,7 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                </button>
+                </motion.button>
               </div>
             );
           })}

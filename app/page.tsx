@@ -11,7 +11,7 @@ import {
   seededShuffle,
 } from "./utils/bingo";
 import { motion, AnimatePresence } from "framer-motion";
-import { useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 
 type Square = {
@@ -42,8 +42,14 @@ function PlayerName({ name }: { name: string }) {
 
 export default function Home() {
 
-  const searchParams = useSearchParams();
-  const isAdmin = searchParams.get('admin') === '1';
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('admin') === '1') {
+      setIsAdmin(true);
+    }
+  }, []);
   const [animOverlays, setAnimOverlays] = useState<
     { x: number; y: number; color: string; id: number }[]
   >([]);

@@ -449,7 +449,7 @@ export default function Home() {
                       : "bg-gray-800 text-white hover:bg-gray-700"
                   }`}
                   onClick={() => handleCategoryClick(index)}
-                  disabled={square.status !== null}
+                  disabled={!gameStarted ||square.status !== null}
                 >
                   {square.status !== null && ["correct", "revealed", "wildcard"].includes(square.status) && (
                     <div
@@ -468,7 +468,6 @@ export default function Home() {
                   
 
                   <div className="relative z-10 flex flex-col items-center">
-                    {gameStarted && (
                       <>
                         <img
                           src={`/logos/${safeFileName}.png`}
@@ -487,8 +486,7 @@ export default function Home() {
                           </span>
                         </>
 
-                      </>
-                    )}
+                      </>                    
                     {square.player && (
                       <span className="text-[10px] uppercase font-bold mt-1">
                         {square.player.split(" ").map((part, i) =>
@@ -578,6 +576,18 @@ export default function Home() {
           </div>
         </div>
       )}
+      <div className="max-w-prose mx-auto px-4 py-6 text-sm text-gray-200 leading-relaxed">
+        <h2 className="text-xl font-bold mb-2">What is Touchdown Bingo?</h2>
+        <p>
+          Touchdown Bingo is a daily NFL and college football guessing game. 
+          Try to complete your bingo board by matching players to teams, awards, and coaches. 
+          Each day brings a new challenge, with over 100+ categories and famous players.
+        </p>
+        <p>
+          Explore Hall of Famers, Heisman winners, and your favorite NFL franchises.
+          Come back daily to test your football knowledge!
+        </p>
+      </div>
     </div>
   );
 }

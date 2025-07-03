@@ -11,8 +11,6 @@ import {
   seededShuffle,
 } from "./utils/bingo";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from 'react';
-
 
 type Square = {
   status: "correct" | "wrong" | "wildcard" | "revealed" | null;

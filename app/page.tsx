@@ -11,6 +11,7 @@ import {
   seededShuffle,
 } from "./utils/bingo";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams } from 'next/navigation';
 
 
 type Square = {
@@ -41,6 +42,8 @@ function PlayerName({ name }: { name: string }) {
 
 export default function Home() {
 
+  const searchParams = useSearchParams();
+  const isAdmin = searchParams.get('admin') === '1';
   const [animOverlays, setAnimOverlays] = useState<
     { x: number; y: number; color: string; id: number }[]
   >([]);
@@ -522,6 +525,25 @@ export default function Home() {
             Next &gt;
           </button>
         </div>
+
+        {isAdmin && (
+          <div className="flex gap-2 justify-center mt-2">
+            <button
+              className={`bg-yellow-500 hover:bg-yellow-600 text-black text-xs font-semibold px-3 py-1 rounded ${
+                dayOffset === -1 ? 'ring-2 ring-yellow-300' : ''
+              }`}
+              onClick={() => setDayOffset(-1)}
+            >
+              Preview Tomorrow
+            </button>
+            <button
+              className="bg-gray-700 hover:bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded"
+              onClick={() => setDayOffset(0)}
+            >
+              Back to Today
+            </button>
+          </div>
+        )}
       </div>
 
       {showEndModal && (

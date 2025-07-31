@@ -602,8 +602,8 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="max-w-prose mx-auto px-4 py-6 text-sm text-gray-200 leading-relaxed">
-        <h2 className="text-xl font-bold mb-2">What is Touchdown Bingo?</h2>
+      <div className="max-w-prose mx-auto px-4 py-6 text-base md:text-lg text-gray-200 leading-relaxed">
+        <h2 className="text-2xl font-bold mb-2">What is Touchdown Bingo?</h2>
         <p>
           Touchdown Bingo is a daily NFL and college football guessing game. 
           Try to complete your bingo board by matching players to teams, awards, and coaches. 
@@ -614,6 +614,73 @@ export default function Home() {
           Come back daily to test your football knowledge!
         </p>
       </div>
+      <div className="max-w-prose mx-auto px-4 py-6 text-base md:text-lg text-gray-200 leading-relaxed">
+        <h2 className="text-2xl font-bold mb-2">How to Play</h2>
+        <p>
+          Select players who match both the row and column categories on the bingo board. 
+          You score by completing rows, columns, or diagonals — just like traditional bingo.
+        </p>
+        <p>
+          You can click on any square to search for eligible players. 
+          Once a player is used, they can’t be used again — choose wisely!
+        </p>
+      </div>
+      <div className="max-w-prose mx-auto px-4 py-6 text-base md:text-lg text-gray-200 leading-relaxed">
+        <h2 className="text-2xl font-bold mb-2">Frequently Asked Questions</h2>
+
+        <p className="mb-4">
+          <strong>Is this an official NFL game?</strong><br />
+          No. Touchdown Bingo is a fan-made trivia and guessing game for entertainment only.
+        </p>
+
+        <p className="mb-4">
+          <strong>How often is the game updated?</strong><br />
+          A new game is released daily, featuring a fresh mix of categories and players.
+        </p>
+
+        <p className="mb-4">
+          <strong>Who is this game for?</strong><br />
+          Football fans who love trivia, history, and strategy. Whether you follow the NFL or college football — you’ll have fun testing your knowledge!
+        </p>
+      </div>
+      <div className="border-t border-gray-700 mt-10 pt-6 max-w-prose mx-auto px-4 text-sm text-gray-400 text-center">
+        <p className="mb-2">© {new Date().getFullYear()} Touchdown Bingo. All rights reserved.</p>
+        <p className="mb-4">
+          <a href="#" className="underline hover:text-white">Privacy Policy</a>
+        </p>
+
+
+        <div className="flex justify-center gap-4 text-gray-400 text-lg">
+          {/* Instagram */}
+          <span title="Instagram">
+            <svg className="w-5 h-5 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5a4.25 4.25 0 0 0 4.25-4.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm5.25-.75a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5z" />
+            </svg>
+          </span>
+
+          {/* Twitter */}
+          <span title="Twitter">
+            <svg className="w-5 h-5 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M22.46 6c-.77.35-1.6.59-2.46.69a4.29 4.29 0 0 0 1.88-2.37 8.59 8.59 0 0 1-2.72 1.03A4.28 4.28 0 0 0 16.11 4c-2.37 0-4.29 1.92-4.29 4.29 0 .34.04.66.11.97C7.69 8.99 4.07 7.13 1.64 4.16a4.29 4.29 0 0 0-.58 2.16c0 1.49.76 2.8 1.91 3.57a4.26 4.26 0 0 1-1.94-.54v.06c0 2.08 1.48 3.82 3.45 4.21a4.29 4.29 0 0 1-1.93.07c.54 1.7 2.1 2.94 3.95 2.98A8.6 8.6 0 0 1 1 19.54a12.13 12.13 0 0 0 6.56 1.92c7.88 0 12.2-6.53 12.2-12.2 0-.19 0-.39-.01-.58A8.72 8.72 0 0 0 24 4.56a8.47 8.47 0 0 1-2.54.7z" />
+            </svg>
+          </span>
+
+          {/* TikTok */}
+          <span title="TikTok">
+            <svg className="w-5 h-5 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M16 8.5c2.21 0 4-1.79 4-4V3h-2.5v1.5h-2V3H13v7.5c0 .55-.45 1-1 1s-1-.45-1-1v-3H9.5v3a3.5 3.5 0 0 0 7 0V8.5z" />
+            </svg>
+          </span>
+
+          {/* YouTube */}
+          <span title="YouTube">
+            <svg className="w-5 h-5 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M10 15l5.19-3L10 9v6zm12-3c0-1.1-.1-2.09-.29-3.01-.17-.82-.83-1.48-1.65-1.65C18.1 7.1 12 7 12 7s-6.1.1-8.06.34c-.82.17-1.48.83-1.65 1.65C2.1 9.91 2 10.9 2 12s.1 2.09.29 3.01c.17.82.83 1.48 1.65 1.65C5.9 16.9 12 17 12 17s6.1-.1 8.06-.34c.82-.17 1.48-.83 1.65-1.65.19-.92.29-1.91.29-3.01z" />
+            </svg>
+          </span>
+        </div>
+      </div>
+
     </div>
   );
 }

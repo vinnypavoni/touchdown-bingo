@@ -58,10 +58,6 @@ export const players = [
     categories: ["Super Bowl Winner", "DPOY", "Denver Broncos","Buffalo Bills", "Texas A&M Aggies"],
   },
   {
-    name: "Saquon Barkley",
-    categories: ["New York Giants","Philadelphia Eagles", "Penn State Nittany Lions","Super Bowl Winner"],
-  },
-  {
     name: "Julio Jones",
     categories: ["Atlanta Falcons", "Alabama Crimson Tide"],
   },
@@ -79,7 +75,7 @@ export const players = [
   },
   {
     name: "DeAndre Hopkins",
-    categories: ["Coached by Andy Reid", "Arizona Cardinals","Kansas City Chiefs","Tennessee Titans", "Clemson Tigers"],
+    categories: ["Coached by Andy Reid","Houston Texans","Baltimore Ravens", "Arizona Cardinals","Kansas City Chiefs","Tennessee Titans", "Clemson Tigers"],
   },
   {
     name: "Tyreek Hill",
@@ -116,10 +112,6 @@ export const players = [
   {
     name: "Matthew Stafford",
     categories: ["Super Bowl Winner","Detroit Lions", "Los Angeles Rams", "Georgia Bulldogs"],
-  },
-  {
-    name: "Baker Mayfield",
-    categories: ["Cleveland Browns", "Tampa Bay Buccaneers", "Los Angeles Rams", "Carolina Panthers", "Oklahoma Sooners"],
   },
   {
     name: "Derrick Brooks",
@@ -192,10 +184,6 @@ export const players = [
   {
     name: "Melvin Gordon",
     categories: ["Denver Broncos", "Los Angeles Chargers", "Wisconsin Badgers"],
-  },
-  {
-    name: "Josh Allen",
-    categories: ["Buffalo Bills", "Wyoming Cowboys","MVP"],
   },
   {
     name: "Kenny Golladay",
@@ -273,16 +261,6 @@ export const players = [
   ]
 },
 {
-  name: "Anquan Boldin",
-  categories: [
-    "Arizona Cardinals",
-    "Baltimore Ravens",
-    "San Francisco 49ers",
-    "Florida State Seminoles",
-    "Super Bowl Winner"
-  ]
-},
-{
   name: "Jamaal Charles",
   categories: [
     "Coached by Andy Reid", 
@@ -342,7 +320,7 @@ export const players = [
     "Chicago Bears",
     "New York Jets",
     "New York Giants",
-    "seattle Seahawks",
+    "Seattle Seahawks",
     "Coached by Pete Carroll",
     "UCF Knights"
   ]
@@ -481,7 +459,6 @@ export const players = [
 { name: "Jaylon Smith", categories: ["Dallas Cowboys", "Chicago Bears", "Notre Dame Fighting Irish", "1st Round Draft Pick"] },
 { name: "T.J. Watt", categories: ["DPOY", "Pittsburgh Steelers", "Wisconsin Badgers", "1st Round Draft Pick"] },
 { name: "Leonard Fournette", categories: ["Jacksonville Jaguars", "Tampa Bay Buccaneers", "LSU Tigers", "1st Round Draft Pick"] },
-{ name: "Jalen Ramsey", categories: ["Jacksonville Jaguars", "Los Angeles Rams", "Miami Dolphins", "Florida State Seminoles", "DPOY", "Super Bowl Winner", "1st Round Draft Pick"] },
 { name: "Myles Garrett", categories: ["DPOY", "Cleveland Browns", "Texas A&M Aggies", "1st Round Draft Pick"] },
 { name: "Mike Williams", categories: ["Los Angeles Chargers", "Oklahoma State Cowboys", "1st Round Draft Pick"] },
 { name: "Dak Prescott", categories: ["Dallas Cowboys", "Mississippi State Bulldogs", "1st Round Draft Pick"] },
@@ -498,7 +475,7 @@ export const players = [
 { name: "Nick Bosa", categories: ["San Francisco 49ers", "Ohio St Buckeyes", "DPOY", "Super Bowl Winner", "1st Round Draft Pick"] },
 { name: "Quinnen Williams", categories: ["New York Jets", "Alabama Crimson Tide", "1st Round Draft Pick"] },
 { name: "DeAndre Swift", categories: ["Detroit Lions", "Philadelphia Eagles", "Chicago Bears", "Georgia Bulldogs", "1st Round Draft Pick"] },
-{ name: "D.K. Metcalf", categories: ["Coached by Pete Carroll", "Seattle Seahawks", "Ole Miss Rebels", "1st Round Draft Pick"] },
+{ name: "D.K. Metcalf", categories: ["Coached by Pete Carroll", "Seattle Seahawks","Pittsburgh Steelers", "Ole Miss Rebels", "1st Round Draft Pick"] },
 { name: "Joe Burrow", categories: ["Cincinnati Bengals", "LSU Tigers", "Heisman Trophy Winner", "1st Round Draft Pick"] },
 { name: "Justin Herbert", categories: ["Los Angeles Chargers", "Oregon Ducks", "1st Round Draft Pick"] },
 { name: "Chase Young", categories: ["Washington Football Team", "Ohio St Buckeyes","1st Round Draft Pick"] },
@@ -550,7 +527,7 @@ export const players = [
 { name: "Kam Chancellor", categories: ["Seattle Seahawks", "Virginia Tech Hokies", "Super Bowl Winner", "Coached by Pete Carroll"] },
 { name: "Bobby Wagner", categories: ["Seattle Seahawks", "Los Angeles Rams", "Washington Commanders", "Utah St Aggies", "Super Bowl Winner", "Coached by Pete Carroll"] },
 { name: "Brandon Browner", categories: ["Seattle Seahawks", "Denver Broncos", "New England Patriots", "Oregon St Beavers", "Coached by Bill Belichick", "Super Bowl Winner", "Coached by Pete Carroll"] },
-{ name: "Michael Bennett", categories: ["Seattle Seahawks", "Texas A&M Aggies", "Tempa Bay Buccaneers", "Philadelphia Eagles", "New England Patriots", "Coached by Bill Belichick", "Dallas Cowboys", "Super Bowl Winner", "Coached by Pete Carroll"] },
+{ name: "Michael Bennett", categories: ["Seattle Seahawks", "Texas A&M Aggies", "Tampa Bay Buccaneers", "Philadelphia Eagles", "New England Patriots", "Coached by Bill Belichick", "Dallas Cowboys", "Super Bowl Winner", "Coached by Pete Carroll"] },
 { name: "Donovan McNabb", categories: ["Philadelphia Eagles", "Washington Commanders", "Minnesota Vikings", "Syracuse Orange", "Coached by Andy Reid"] },
 { name: "Brian Westbrook", categories: ["Philadelphia Eagles", "San Francisco 49ers", "Villanova Wildcats", "Coached by Andy Reid"] },
 { name: "Michael Vick", categories: ["Philadelphia Eagles", "Atlanta Falcons", "New York Jets", "Pittsburgh Steelers", "Virginia Tech Hokies", "Coached by Andy Reid"] },

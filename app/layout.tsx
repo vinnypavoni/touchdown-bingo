@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+import Analytics from "../components/GoogleAnalytics"; // ← new component
 
 export const metadata: Metadata = {
   title: "Play Touchdown Bingo",
@@ -44,31 +45,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <title>Play Touchdown Bingo</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="google-adsense-account" content="ca-pub-8274422118651919" />
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8274422118651919"
           crossOrigin="anonymous"
         />
-        {/* Google Analytics */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-2E348YB0E2"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-2E348YB0E2');
-            `,
-          }}
-        />
       </head>
+
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Analytics /> {/* ✅ GA loads client-side only */}
         {children}
-        <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   );

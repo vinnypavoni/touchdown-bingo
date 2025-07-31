@@ -429,7 +429,7 @@ export default function Home() {
         <div className="grid grid-cols-4 w-full aspect-square rounded-b-md overflow-visible relative">
           {boardCategories.map((category, index) => {
             const imageOverrides: Record<string, string> = {
-              "Texas A&M Aggies": "texas_am_aggies.png",
+              "Texas A&M Aggies": "texas_am_aggies",
               // add more overrides as needed
             };
 
